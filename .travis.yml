@@ -7,6 +7,8 @@ services:
   - docker
 
 before_install:
+  - sudo apt-get -y install python-pip
+  - sudo pip install docker-squash
   - docker build -t nanobox/rethinkdb:$VERSION ./$VERSION
 
 script: sudo test/run_all.sh $VERSION
@@ -16,23 +18,25 @@ after_success:
   - "echo \"Branch: '$BRANCH'; Version: '$VERSION'\";"
   - docker login -u="$DOCKER_USERNAME" -p="$DOCKER_PASSWORD";
   - docker build -t ${NAMESPACE}/rethinkdb ./${VERSION};
+  - docker-squash -t ${NAMESPACE}/rethinkdb:squashed -f nanobox/runit --tmp-dir /var/tmp/squasher ${NAMESPACE}/rethinkdb
   # `$VERSION-beta` tag is always pushed (master or any dev branch)
-  - docker tag ${NAMESPACE}/rethinkdb ${NAMESPACE}/rethinkdb:${VERSION}-beta;
+  - docker tag ${NAMESPACE}/rethinkdb:squashed ${NAMESPACE}/rethinkdb:${VERSION}-beta;
   - docker push ${REMOTE}${NAMESPACE}/rethinkdb:${VERSION}-beta;
   # `beta` tag is always pushed (master or any dev branch)
   - if [ "$VERSION" == "2.3" ]; then
-    docker tag ${NAMESPACE}/rethinkdb ${NAMESPACE}/rethinkdb:beta;
+    docker tag ${NAMESPACE}/rethinkdb:squashed ${NAMESPACE}/rethinkdb:beta;
     docker push ${REMOTE}${NAMESPACE}/rethinkdb:beta;
     fi
   # `latest` tag is only pushed on master && most recent version
   - if [ "$BRANCH" == "master" ] && [ "$VERSION" == "2.3" ]; then
+    docker tag ${NAMESPACE}/rethinkdb:squashed ${NAMESPACE}/rethinkdb;
     docker push ${REMOTE}${NAMESPACE}/rethinkdb;
     fi
   # `$VERSION` (latest/stable implied) tag is only pushed on master. tag branch for clarity otherwise (`$VERSION-$BRANCH`)
   - if [ "$BRANCH" == "master" ]; then
-    docker tag ${NAMESPACE}/rethinkdb ${NAMESPACE}/rethinkdb:${VERSION};
+    docker tag ${NAMESPACE}/rethinkdb:squashed ${NAMESPACE}/rethinkdb:${VERSION};
     docker push ${REMOTE}${NAMESPACE}/rethinkdb:${VERSION};
     else
-    docker tag ${NAMESPACE}/rethinkdb ${NAMESPACE}/rethinkdb:${VERSION}-${BRANCH//\//_};
+    docker tag ${NAMESPACE}/rethinkdb:squashed ${NAMESPACE}/rethinkdb:${VERSION}-${BRANCH//\//_};
     docker push ${REMOTE}${NAMESPACE}/rethinkdb:${VERSION}-${BRANCH//\//_};
     fi
