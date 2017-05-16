@@ -3,7 +3,7 @@ This is an RethinkDB Docker image used to launch a RethinkDB service on Nanobox.
 
 ```yaml
 data.cache:
-  image: nanobox/rethinkdb
+  image: nanobox/rethinkdb:2.3
 ```
 
 ## RethinkDB Configuration Options
@@ -22,14 +22,12 @@ RethinkDB components are configured in your `boxfile.yml`. All available configu
 
 #### Overview of RethinkDB Boxfile Settings
 ```yaml
-data.cache:
-  image: nanobox/rethinkdb
-  config:
-    version: 2.3
+data.db:
+  image: nanobox/rethinkdb:2.3
 ```
 
 ### Version
-When configuring a RethinkDB component in your Boxfile, you can specify which version to use. The following version(s) are available:
+When configuring a RethinkDB component in your `boxfile.yml`, you can specify which version to use by appending the version to the image path with a `:`. The following version(s) are available:
 
 - 2.3
 
@@ -38,10 +36,8 @@ When configuring a RethinkDB component in your Boxfile, you can specify which ve
 #### version
 ```yaml
 # default setting
-data.cache:
-  image: nanobox/rethinkdb
-  config:
-    version: 2.3
+data.db:
+  image: nanobox/rethinkdb:2.3
 ```
 
 ## Help & Support
