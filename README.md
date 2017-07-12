@@ -23,7 +23,7 @@ data.db:
   image: nanobox/rethinkdb:2.3
 ```
 
-## Request PostgreSQL Boxfile Configs
+## Request RethinkDB Boxfile Configs
 One of the many benefits of using RethinkDB is that it doesn't require much configuration. The project itself is finely tuned. However we know there are settings that users may want to tweak. If there's a setting you'd like to modify that is typically handled in the `default.conf`, please let us know by creating a [new issue on this project](https://github.com/nanobox-io/nanobox-docker-rethinkdb/issues/new).
 
 ## Help & Support
