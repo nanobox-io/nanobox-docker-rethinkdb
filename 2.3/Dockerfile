@@ -17,7 +17,7 @@ USER gonano
 RUN rm -rf /data/var/db/pkgin && \
     /data/bin/pkgin -y up && \
     /data/bin/pkgin -y in \
-        rethinkdb-2.3 py27-rethinkdb && \
+      python-2.7 rethinkdb-2.3 py27-rethinkdb && \
     rm -rf /data/var/db/pkgin/cache
 
 USER root
