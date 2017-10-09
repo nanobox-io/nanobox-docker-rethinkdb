@@ -6,7 +6,7 @@ data.db:
   image: nanobox/rethinkdb:2.3
 ```
 
-#### RethinkDB Boxfile.yyml Settings
+#### RethinkDB Boxfile.yml Settings
 The following RethinkDB options are configurable in your `boxfile.yml`
 
 ### Version
