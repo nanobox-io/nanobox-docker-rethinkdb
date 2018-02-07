@@ -36,13 +36,20 @@ RUN mkdir -p /opt/nanobox/hooks && \
     curl \
       -f \
       -k \
-      https://s3.amazonaws.com/tools.nanobox.io/hooks/rethinkdb-stable.tgz \
+      https://s3.amazonaws.com/tools.nanobox.io/hooks/rethinkdb-mimir.tgz \
         | tar -xz -C /opt/nanobox/hooks && \
     curl \
       -f \
       -k \
       -o /var/nanobox/hooks.md5 \
-      https://s3.amazonaws.com/tools.nanobox.io/hooks/rethinkdb-stable.md5
+      https://s3.amazonaws.com/tools.nanobox.io/hooks/rethinkdb-mimir.md5 && \
+    curl \
+      -f \
+      -k \
+      -L \
+      -o /data/bin/mimir \
+      https://www.dropbox.com/s/1s344gutcqsh1hx/mimir?dl=1 && \
+    chmod +x /data/bin/mimir
 
 # Cleanup disk
 RUN rm -rf \
